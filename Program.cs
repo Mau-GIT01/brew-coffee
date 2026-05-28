@@ -1,0 +1,33 @@
+using CoffeeMachine.Api.Services;
+using CoffeeMachineAPI.Services;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+builder.Services.AddControllers();
+// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddOpenApi();
+
+//Coffee service
+builder.Services.AddSingleton<ICoffeeCounterService, CoffeeCounterService>();
+
+// Wheather service
+builder.Services.AddSingleton<ICoffeeCounterService, CoffeeCounterService>();
+builder.Services.AddHttpClient<IWeatherService, WeatherService>();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+}
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
